@@ -1,0 +1,285 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primario: #fcfbe4;
+    --fondo: #f0f8c9; 
+    --fondo-sobre: #cbf39e; 
+    --solapa-sobre: #97e971; 
+    --cuerpo-sobre: #a3f3a0; 
+    --sombra: rgba(0, 0, 0, 0.2);
+    --texto: #003049; 
+    --corazon: #0daf28; 
+}
+
+body {
+    background: var(--fondo);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+}
+
+h1 {
+    font-family: "Licorice", cursive;
+    text-align: center;
+    font-size: 60px;
+    margin-bottom: 50px;
+    color: #444;
+}
+
+h1 .emoji-globo{
+    cursor: pointer;
+}
+
+/*Carta General*/
+.contenedor {
+    width: 400px;
+}
+
+.envoltura-sobre {
+    position: relative;
+    background-color: var(--fondo-sobre);
+    box-shadow: 0 0 40px var(--sombra);
+    border-radius: 15px;
+}
+
+.sobre {
+    position: relative;
+    width: 400px;
+    height: 300px;
+}
+
+.sobre::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 4;
+    border-top: 180px solid var(--solapa-sobre);
+    border-right: 200px solid transparent;
+    border-left: 200px solid transparent;
+    transform-origin: top;
+    transition: all 0.5s ease-in-out 0.7s;
+    border-radius: 10px;
+}
+
+.solapa-derecha {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    clip-path: polygon(100% 0, 0 100%, 100% 100%);
+    background-color: var(--cuerpo-sobre);
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.solapa-izquierda {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    clip-path: polygon(0 0, 0 100%, 100% 100%);
+    background-color: var(--cuerpo-sobre);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+
+/*Contenido de la carta*/
+.carta {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--primario);
+    text-align: center;
+    box-shadow: 0 0 5px var(--sombra);
+    padding: 20px;
+    border-radius: 10px;
+    transition: transform .5s ease-in-out;
+}
+
+.contenido {
+    font-family: "Gill Sans", Calibri, sans-serif;
+    color: var(--texto);
+    text-align: left;
+    font-size: 12px;
+    border: 3px dotted var(--corazon);
+    padding: 10px;
+    height: 100%;
+    line-height: 14px;
+    cursor: pointer;
+    overflow-Y: scroll;
+
+}
+
+.corazon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    background-color: var(--corazon);
+    transform: translate(-50%,0) rotate(45deg);
+    transition: transform 0.5s ease-in-out 1s;
+    z-index: 999;
+    cursor: pointer;
+}
+
+
+
+/*corazon*/
+.corazon::before,
+.corazon::after {
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: var(--corazon);
+    border-radius: 100%;
+
+}
+
+.corazon:before {
+    top: -15px;
+}
+
+.corazon:after {
+    right: 15px;
+}
+
+/*Movimiento de la carta*/
+.abierto .sobre::before {
+    transform: rotateX(180deg);
+    z-index: 0;
+}
+
+.abierto .corazon {
+    transform: rotate(90deg);
+    transition-delay: 0.4s;
+}
+
+.carta.mostrar-carta {
+    transform: translateY(-290px);
+    transition: transform .5s ease-in-out;
+}
+
+.carta.cerrando-carta {
+    transform: translateY(-290px);
+    transition: transform .5s ease-in-out;
+}
+
+.carta.abierta {
+    z-index: 10000;
+}
+
+.envoltura-sobre.desactivar-sobre .sobre::before {
+    pointer-events: none;
+}
+
+/*Globitos*/
+#contenedor-globos {
+    width: 100%;
+    height: 100%;
+  padding: 1em;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+    left: 0;
+  z-index: -5;
+  transition: opacity 500ms;
+}
+
+.balloon {
+  height: 125px;
+  width: 105px;
+  border-radius: 75% 75% 70% 70%;
+  position: relative;
+}
+
+.balloon:before {
+  content: "";
+  height: 75px;
+  width: 1px;
+  padding: 1px;
+  background-color: #FDFD96;
+  display: block;
+  position: absolute;
+  top: 125px;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.balloon:after {
+    content: "▲";
+    text-align: center;
+    display: block;
+    position: absolute;
+    color: inherit;
+    top: 120px;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+@keyframes float {
+  from {transform: translateY(100vh);
+  opacity: 1;}
+  to {transform: translateY(-300vh);
+  opacity: 0;}
+}
+
+/*boton sospresa*/
+.boton-raro{
+    width: 100px;
+    height: 30px;
+    background-color: var(--fondo-sobre);
+    border: none;
+    border-radius: 15px;
+    margin: 20px;
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+    display: none;
+}
+
+.boton-raro a{
+    text-decoration: none;
+    color: rgb(64, 83, 60);
+        font-size: small;
+}
+
+
+/*Vista celular*/
+@media screen and (max-width:400px) {
+    .contenedor {
+        width: 300px;
+    }
+
+    .sobre {
+        width: 300px;
+        height: 250px;
+    }
+
+    .sobre::before {
+        border-top:150px solid var(--solapa-sobre) ;
+        border-right: 150px solid transparent;
+        border-left: 150px solid transparent;
+    }
+
+}
